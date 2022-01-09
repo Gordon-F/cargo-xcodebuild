@@ -1,0 +1,22 @@
+[package]
+name = "bevy_xcodebuild_example"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["staticlib"]
+
+[dependencies]
+bevy = { version = "0.6", features = [
+  "bevy_audio",
+  "bevy_winit",
+  "render",
+  "vorbis",
+  "x11",
+  "filesystem_watcher"
+], default-features = false}
+
+[package.metadata.ios]
+assets = ["assets/"]
+build_targets = ["aarch64-apple-ios", "aarch64-apple-ios-sim", "x86_64-apple-ios"]
+dependencies = ["Metal.framework", "Security.framework", "UIKit.framework", "AudioToolbox.framework"]

@@ -1,0 +1,17 @@
+[package]
+name = "mobile-device"
+version = "0.1.0"
+edition = "2021"
+description = "Communicate with iOS devices"
+license = "MIT OR Apache-2.0"
+keywords = ["xcode", "ios"]
+homepage = "https://github.com/Gordon-F/cargo-xcodebuild"
+repository = "https://github.com/Gordon-F/cargo-xcodebuild"
+
+[dependencies]
+log = "0.4"
+core-foundation = "0.9"
+anyhow = "1"
+
+[dev-dependencies]
+env_logger = "0.9"

@@ -1,0 +1,10 @@
+[workspace]
+resolver = "2"
+members = [
+    "cargo-xcodebuild",
+    "mobile-device",
+    "examples/miniquad",
+    "examples/macroquad",
+    "examples/wgpu",
+    "examples/bevy",
+]

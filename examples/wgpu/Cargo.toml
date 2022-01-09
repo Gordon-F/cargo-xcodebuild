@@ -1,0 +1,23 @@
+[package]
+name = "wgpu"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "wgpu_xcodebuild_example"
+crate-type = ["staticlib"]
+
+[dependencies]
+wgpu = "0.12"
+bitflags = "1"
+bytemuck = { version = "1.4", features = ["derive"] }
+cgmath = "0.18"
+log = "0.4"
+winit = "0.26"
+async-executor = "1.0"
+pollster = "0.2"
+env_logger = "0.8"
+
+[package.metadata.ios]
+build_targets = ["aarch64-apple-ios", "aarch64-apple-ios-sim", "x86_64-apple-ios"]
+dependencies = ["Metal.framework", "Security.framework", "UIKit.framework"]

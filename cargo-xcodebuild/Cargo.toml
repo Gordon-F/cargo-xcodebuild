@@ -1,0 +1,21 @@
+[package]
+name = "cargo-xcodebuild"
+version = "0.1.0"
+edition = "2021"
+description = "Helps cargo build and run apps for iOS"
+license = "MIT OR Apache-2.0"
+keywords = ["xcode", "xcrun", "ios", "xcodebuild", "xcodegen"]
+homepage = "https://github.com/Gordon-F/cargo-xcodebuild"
+repository = "https://github.com/Gordon-F/cargo-xcodebuild"
+
+[dependencies]
+md = { package = "mobile-device", version = "0.1", path = "../mobile-device" }
+log = "0.4"
+env_logger = "0.9"
+cargo-subcommand = "0.5"
+anyhow = "1"
+serde = "1"
+serde_yaml = "0.8"
+serde_json = "1"
+toml = "0.5"
+x509-parser = "0.12"

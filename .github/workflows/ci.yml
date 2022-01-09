@@ -1,0 +1,115 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    name: Build
+    runs-on: macos-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+
+      - name: install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+
+      - name: run build
+        run: |
+          cargo build -p mobile-device
+          cargo build -p cargo-xcodebuild
+
+  tests:
+    name: Tests
+    runs-on: macos-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+
+      - name: install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+
+      - name: run tests
+        run: |
+          cargo test -p mobile-device
+          cargo test -p cargo-xcodebuild
+
+  fmt:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+
+      - name: install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          components: rustfmt
+
+      - name: run rustfmt
+        run: |
+          cargo fmt -- --check
+
+  clippy:
+    name: Clippy
+    runs-on: macos-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+
+      - name: install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          components: clippy
+
+      - name: run clippy
+        run: |
+          cargo clippy -p mobile-device
+          cargo clippy -p cargo-xcodebuild
+
+  examples:
+    needs: [build, tests, clippy]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-10.15, macos-11]
+    name: Examples
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+      - name: install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - name: Install rust targets
+        run: |
+          rustup target add aarch64-apple-ios x86_64-apple-ios aarch64-apple-ios-sim
+      - name: Install cargo-xcodebuild
+        run: |
+          cargo install --path ./cargo-xcodebuild
+      - name: Install xcodegen
+        run: |
+          brew install xcodegen
+      - name: Build miniquad example
+        run: |
+          RUST_LOG=trace cargo xcodebuild check --manifest-path examples/miniquad/Cargo.toml
+          RUST_LOG=trace cargo xcodebuild generate --manifest-path examples/miniquad/Cargo.toml
