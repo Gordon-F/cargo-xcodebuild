@@ -82,6 +82,7 @@ pub extern "C" fn main_rs() {
 }
 ```
 
+Following instruction to run on a [simulator](https://github.com/Gordon-F/cargo-xcodebuild/wiki/Running-on-simulator) or a [device](https://github.com/Gordon-F/cargo-xcodebuild/wiki/Running-on-device).
 
 ### Manifest
 Following configuration options are supported by `cargo xcodebuild` under `[package.metadata.ios]`:
