@@ -88,7 +88,7 @@ Following instruction to run on a [simulator](https://github.com/Gordon-F/cargo-
 Following configuration options are supported by `cargo xcodebuild` under `[package.metadata.ios]`:
 
 ```toml
-[package.metadata.android]
+[package.metadata.ios]
 # Specifies the array of targets to build for.
 build_targets = ["aarch64-apple-ios", "aarch64-apple-ios-sim", "x86_64-apple-ios"]
 
