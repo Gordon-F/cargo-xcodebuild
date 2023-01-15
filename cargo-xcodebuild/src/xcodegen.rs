@@ -65,8 +65,8 @@ impl Project {
         let toml_assets = ios_metadata.assets.unwrap_or_default();
         let project_folder = manifest_path.parent().unwrap();
         for asset in toml_assets {
-            let full_path = project_folder.join(asset);
-            let source_path = SourcesPath::assets_folder(full_path.to_str().unwrap())?;
+            let full_path = project_folder.join(&asset);
+            let source_path = SourcesPath::assets_folder(full_path.to_str().unwrap(), &asset)?;
             let source = serde_yaml::to_value(source_path)?;
             sources_map.push(source);
         }
@@ -309,7 +309,7 @@ pub struct SourcesPath {
 }
 
 impl SourcesPath {
-    pub fn assets_folder(path: &str) -> anyhow::Result<Self> {
+    pub fn assets_folder(full_path: &str, dest_path: &str) -> anyhow::Result<Self> {
         let mut copy_files: HashMap<serde_yaml::Value, serde_yaml::Value> = HashMap::new();
         copy_files.insert(
             serde_yaml::Value::String("destination".to_string()),
@@ -317,13 +317,13 @@ impl SourcesPath {
         );
         copy_files.insert(
             serde_yaml::Value::String("subpath".to_string()),
-            serde_yaml::Value::String(path.to_string()),
+            serde_yaml::Value::String(dest_path.to_string()),
         );
         let build_phase =
             HashMap::from([("copyFiles".to_string(), serde_yaml::to_value(copy_files)?)]);
 
         Ok(Self {
-            path: path.to_string(),
+            path: full_path.to_string(),
             build_phase,
         })
     }
