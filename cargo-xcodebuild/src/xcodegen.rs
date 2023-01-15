@@ -317,7 +317,7 @@ impl SourcesPath {
         );
         copy_files.insert(
             serde_yaml::Value::String("subpath".to_string()),
-            serde_yaml::Value::String("assets".to_string()),
+            serde_yaml::Value::String(path.to_string()),
         );
         let build_phase =
             HashMap::from([("copyFiles".to_string(), serde_yaml::to_value(copy_files)?)]);
